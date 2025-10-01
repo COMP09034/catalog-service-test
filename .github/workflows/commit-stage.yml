@@ -28,7 +28,18 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
-
+  
+    - name: Anchore Container Scan
+      uses: anchore/scan-action@v3.6.4
+      id: scan
+      with:
+        # The path to scan. This option is mutually exclusive with "image" and "sbom".
+        path: "${{ github.workspace }}"
+        # Set to false to avoid failing based on severity-cutoff. Default is to fail when severity-cutoff is reached (or surpassed)
+        fail-build: false
+        severity-cutoff: high
+        acs-report-enable: true
+          
     # Configure Gradle for optimal use in GitHub Actions, including caching of downloaded dependencies.
     # See: https://github.com/gradle/actions/blob/main/setup-gradle/README.md
     - name: Setup Gradle
