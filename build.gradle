@@ -8,6 +8,10 @@ group = 'ie.atu.cloudnative'
 version = '0.0.1-SNAPSHOT'
 description = 'Catalog Service'
 
+ext {
+  set('springCloudVersion', "2025.0.0")
+} 
+
 java {
 	toolchain {
 		languageVersion = JavaLanguageVersion.of(21)
@@ -23,6 +27,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.apache.logging.log4j:log4j-core:2.14.1' // Vulnerable dependency for teaching purposes	
+  	implementation 'org.springframework.cloud:spring-cloud-starter-config'	
+  	implementation 'org.springframework.retry:spring-retry'	
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
@@ -32,3 +38,9 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+dependencyManagement {
+  imports {
+    mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+  } 
+} 
